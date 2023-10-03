@@ -1,1 +1,11 @@
-# Spatial_Ecology_in_R_PSG
+# Spatial Ecology in R 🌳
+
+## Pedro Santodomingo Garzon 
+Student
+
+## Main scripts in this repo:
++ Populations
++ Communities
++ Ecosystems
+
+>**Note** Scripts
