@@ -1,8 +1,11 @@
 #Why population disperce over landscape in a certain manner?
 
+#Run the libraries we are going to use
 library(sdm)
 library(rgdal)
 library(terra)
+
+
 file <- system.file("external/species.shp", package="sdm")
 rana <- vect(file)
 rana
