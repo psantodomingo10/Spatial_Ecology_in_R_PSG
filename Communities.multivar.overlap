@@ -1,0 +1,63 @@
+### Communities multivariate
+
+#Open the library we are gonig to use
+library(vegan)
+
+data(dune)
+dune
+head(dune)
+View(dune)
+
+### detrended correspondence analysis
+
+ordenado <- decorana(dune)
+ordenado
+
+ldc1=3.7004
+ldc2=3.1166
+ldc3=1.30055
+ldc4=1.47888
+total= ldc1+ldc2+ldc3+ldc4
+pldc1=3.7004/total*100
+pldc2=3.1166/total*100
+pldc3=1.30055/total*100
+pldc4=1.47888/total*100
+
+plot(ordenado)
+
+###Communities overlap
+
+library(overlap)
+data(kerinci)
+View(kerinci)
+
+#Change the time from radians to normal time
+kerinci$timeRad <- kerinci$Time * 2 * pi
+
+#Make a density plot for the tiger across time
+tiger <- kerinci[kerinci$Sps=="tiger",]
+tiger
+timetig <- tiger$timeRad
+densityPlot(timetig, rug=TRUE)
+
+#Make a density plot for the macaque across time
+maca <- kerinci[kerinci$Sps=="macaque",]
+maca
+timemaca <- maca$timeRad
+densityPlot(timemaca, rug=TRUE)
+
+#Make the overlap plot to see when do the tiger and macaque presence overlap
+overlapPlot(timetig, timemaca)
+legend('topright', c("Tigers", "Macaques"), lty=c(1,2), col=c("black","blue"), bty='n')
+
+kerinci$Sps
+summary(kerinci$Sps)
+
+#Make a density plot for the tapir across time
+tapi <- kerinci[kerinci$Sps=="tapir",]
+tapi
+timetapi <- tapi$timeRad
+densityPlot(timetapi, rug=TRUE)
+
+#Make the overlap plot to see when do the tapir and macaque presence overlap
+overlapPlot(timemaca, timetapi)
