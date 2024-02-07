@@ -1,0 +1,255 @@
+\documentclass{beamer}
+\usepackage{listings}
+\usepackage{graphicx} % Required for inserting images
+
+\usetheme{Berlin} 
+\usecolortheme{seahorse}
+
+\title{Spatial Ecology in R}
+\subtitle{Spatial Analysis of Deforestation in Colombian Amazonia}
+\author{Pedro Santodomingo Garzón}
+\institute{Alma Mater Studiorum UniBo}
+\date{February 16th 2024}
+
+\begin{document}
+
+\maketitle
+
+\AtBeginSection[] 
+{
+\begin{frame}
+\frametitle{Content}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+\section{Introduction}
+\begin{frame}
+\frametitle{Aim of the project}
+The aim of the present project is to analyze the rates of deforestation in the Colombian Amazonia. Given the current levels of global warming, it is important to study the principal natural carbon sinks in order to preserve them. 
+\centering
+\includegraphics[width=0.45\textwidth]{Amazonia-Colombia.jpg}
+\end{frame}
+
+\begin{frame}
+\frametitle{Area of interest}
+\centering
+The area of interest for this analysis is delimited by the coordinates 0.5 and 3 degrees north and 71 and 75 degrees west. This is more or less equivalent to 120,000 square kilometers.
+\includegraphics[width=0.35\textwidth]{Captura GoogleEarth.jpg}
+\end{frame}
+
+\begin{frame}
+\frametitle{Area of interest}
+\centering
+The area was chosen because is located at the limit between the amazon rain forest and the human social and economic activities. It is known that this area present the higher rates of deforestation in Colombia.
+
+\bigskip
+
+After the first analysis, the area will be zoomed to focus specifically on the most affected zone, and it corresponds to around 16,500 square kilometers. 
+\end{frame}
+
+\begin{frame}
+\frametitle{Zoomed Area}
+\centering
+\includegraphics[width=0.7\textwidth]{2016-01-17-00_00_2016-01-17-23_59_Sentinel-2_L1C_True_color (1).jpg}
+\includegraphics[width=0.7\textwidth]{2024-01-10-00_00_2024-01-10-23_59_Sentinel-2_L1C_True_color.jpg}
+\end{frame}
+
+\section{Information and Methods}
+\begin{frame}{Sources of information}
+For this project, two sources of information were used:
+\begin{itemize}
+  \item Copernicus FCOVER data (years 2000, 2005, 2010, 2015)
+  \item Sentinel-2 satellite images (years 2016 and 2024)
+ \end{itemize}
+\end{frame}
+
+\begin{frame}{Methods}
+For the iamges regarding the FCOVER (Fraction of Green Vegetaion Cover) it was analyzed the change over time.
+
+\bigskip
+
+For the satellite images, which were downloaded in false color (bands 8 (NIR), 4 (Red), and 3(Green)) it was calculated the DVI, the NDVI, and its change over time. Also, a classification on the land use was made. 
+\end{frame}
+
+\begin{frame}{Methods}
+To perform the analysis, it was used R Studio and the following packages:
+
+\bigskip
+
+\begin{itemize}
+  \item raster: to work with raster files
+  \item terra: to manipulate data in raster form
+  \item ncdf4: to import the .nc copernicus files
+  \item imageRy: Modify and share images
+  \item ggplot2: to create graphs with ggplot function
+  \item patchwork: to plot muliframe graphs
+  \item viridis: color palette for colorblind people
+ \end{itemize}
+\end{frame}
+
+\begin{frame}{Steps followed for FCOVER}
+
+For the analysis of FCOVER images the following steps where followed:
+
+
+\begin{enumerate}
+  \item Download the data
+  \item Import the data using the rast() function
+  \item Stack the images
+  \item Crop the images to focus on the area with the crop() function
+  \item Calculate the difference between years
+  \item Classify the results, using the im.classify() function in order to understand if they were positive or negative changes
+  \item Plot the results taking into consideration colorblind people
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Steps followed for Sentinel-2}
+
+For the analysis of Sentinel-2 images the following steps where followed:
+
+
+\begin{enumerate}
+  \item Download the data
+  \item Import the data using the rast() function
+  \item Calculate the DVI and NDVI by using the different bands contained in the images
+  \item Classify the images, using the im.classify() function
+  \item Calculate the frequency of each class, using the freq() function to compute the percentages
+  \item Plot the results taking into consideration colorblind people
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Formulas for DVI, NDVI and Percentage}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \centering
+        DVI and NDVI
+        
+        \bigskip
+        
+        \includegraphics[width=0.8\textwidth]{DVI NDVI.jpg}
+        \column{0.5\textwidth}
+        \centering
+        Percentage
+        \includegraphics[width=0.8\textwidth]{PercForm.jpg}
+    \end{columns}
+\end{frame}
+
+\section{Results}
+\begin{frame}
+\frametitle{FCOVER} 
+\centering
+\includegraphics[width=0.8\textwidth]{FCOVER Colombia.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{Difference in FCOVER} 
+\centering
+\includegraphics[width=0.8\textwidth]{Differences FCOVER Colombia.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{Classified Difference 2000-2005} 
+\centering
+\includegraphics[width=0.5\textwidth]{Change 2000-2005.png}
+\includegraphics[width=0.4\textwidth]{Perc 2000-2005.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{Classified Difference 2005-2010} 
+\centering
+\includegraphics[width=0.5\textwidth]{Change 2005-2010.png}
+\includegraphics[width=0.4\textwidth]{Perc 2005-2010.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{Classified Difference 2010-2015} 
+\centering
+\includegraphics[width=0.5\textwidth]{Change 2010-2015.png}
+\includegraphics[width=0.4\textwidth]{Perc 2010-2015.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{Classified Difference 2000-2015} 
+\centering
+\includegraphics[width=0.5\textwidth]{Change 2000-2015.png}
+\includegraphics[width=0.4\textwidth]{Perc 2000-2015.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{Sentinel-2 False Color}
+\centering
+\includegraphics[width=0.7\textwidth]{2016-01-17-00_00_2016-01-17-23_59_Sentinel-2_L1C_False_color.jpg}
+\includegraphics[width=0.7\textwidth]{2024-01-10-00_00_2024-01-10-23_59_Sentinel-2_L1C_False_color.jpg}
+\end{frame}
+
+\begin{frame}
+\frametitle{DVI and NDVI}
+\begin{columns}
+        \column{0.5\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{dvi Calamar1.png}
+        \column{0.5\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{NDVI Calamar1.png}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Classified 2016}
+\centering
+\includegraphics[width=0.8\textwidth]{Classify2016 Calamar 1.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{Classified 2024}
+\centering
+\includegraphics[width=0.8\textwidth]{Classify2024 Calamar 1.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{Change in land use}
+\centering
+\includegraphics[width=0.8\textwidth]{PercForest Macarena.png}
+\end{frame}
+
+\section{Discussion}
+\begin{frame}{Discussion}
+The principal conclusions of this work are:
+
+\bigskip
+
+\begin{itemize}
+  \item The FCOVER change over time is influenced by several factors and not only deforestation. It is not a good proxy for determining the real rates of this phenomena for previous years.
+  \item Satellite image are preferred.
+  \item Some cycles can be noted on the change of FCOVER over time. Further investigation shall be done to determine the causes of those cycles.
+  \item When calculating the NDVI for 2016 and 2024, clearly the area affected was bigger in 2024, but it seems that the quality of the coverage has also improved. Could be part of the mentioned cycles?
+ \end{itemize}
+\end{frame}
+
+\begin{frame}{Discussion}
+The principal conclusions of this work are:
+
+\bigskip
+
+\begin{itemize}
+  \item In the focus area of study, we can assure that the land use for human activity has increased at least 5 percent over the last 8 years.
+  \item Considering that the area was around 16,500 square kilometers, this 5 percent corresponds to 825 square kilometers.
+  \item That's equivalent to deforest 300.000 square meters by day or 2 soccer fields by hour in the last 8 years and only in that specific zone.
+  \item We must stop this!
+ \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{The end}
+Thanks for your attention. 
+
+\bigskip
+
+\centering
+\includegraphics[width=0.45\textwidth]{Amazonia-Colombia.jpg}
+\end{frame}
+
+
+
+\end{document}
